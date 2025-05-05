@@ -1,29 +1,32 @@
 version: '3.9'
 
 services:
-  nginx:
-    build: ./nginx
-    ports:
-      - '80:80'
-    depends_on:
-      - frontend
-      - backend
-    networks:
-      - appnet
+  
 
   frontend:
-    build: ./frontend
+    image: ghcr.io/embrs/nuxt-ci-test:latest
     expose:
       - '3000'
+    restart: always
     networks:
       - appnet
 
   backend:
-    build: ./backend
+    image: ghcr.io/embrs/php-ci-test:latest
+    restart: always
     expose:
       - '8000'
     networks:
       - appnet
 
+  nginx:
+      image: ghcr.io/embrs/nginx-ci-test:latest
+      ports:
+        - '80:80'
+      depends_on:
+        - frontend
+        - backend
+      networks:
+        - appnet
 networks:
   appnet:
