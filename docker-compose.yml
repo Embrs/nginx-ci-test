@@ -1,26 +1,28 @@
-version: '3.9'
-
 services:
-  
-
   frontend:
-    image: ghcr.io/embrs/nuxt-ci-test:latest
+    image: ghcr.io/embrs/nuxt-ci-test:1.2.14
     expose:
       - '3000'
     restart: always
     networks:
       - appnet
 
+  # backend:
+  #   image: ghcr.io/embrs/php-ci-demo:1.0.2
+  #   restart: always
+  #   expose:
+  #     - '8000'
+  #   networks:
+  #     - appnet
   backend:
-    image: ghcr.io/embrs/php-ci-test:latest
+    image: ghcr.io/embrs/asp-ci-demo:latest
     restart: always
     expose:
-      - '8000'
+      - '5000'
     networks:
       - appnet
-
   nginx:
-      image: ghcr.io/embrs/nginx-ci-test:latest
+      image: ghcr.io/embrs/nginx-ci-demo:latest
       ports:
         - '80:80'
       depends_on:
