@@ -9,8 +9,8 @@ services:
   backend:
     image: ghcr.io/embrs/asp-ci-demo:latest
     restart: always
-    ports:
-      - '5000:80'
+    expose:
+      - '80'
     networks:
       - appnet
   frontend:
