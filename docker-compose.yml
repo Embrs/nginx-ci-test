@@ -10,7 +10,7 @@ services:
     image: ghcr.io/embrs/asp-ci-demo:latest
     restart: always
     expose:
-      - '80'
+      - '5000'
     networks:
       - appnet
   frontend:
@@ -23,15 +23,16 @@ services:
     networks:
       - appnet
   nginx:
-    image: nginx           # 使用輕量 Alpine 版本
+    image: nginx:alpine          # 使用輕量 Alpine 版本
     ports:
       - "80:80"                  # 映射 HTTP 端口
-      # - "443:443"                # 若有 HTTPS 需映射 443
+      - "443:443"                # 若有 HTTPS 需映射 443
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf  # 掛載自定義配置
+      - ./nginx/ssl:/etc/nginx/ssl:/etc/nginx/ssl;          # 掛載 SSL 憑證
     depends_on:
       - backend
       - frontend
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf  # 掛載自定義配置
     networks:
       - appnet
 networks:
