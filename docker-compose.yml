@@ -1,20 +1,26 @@
 services:
-  backend:
+  backend1:
     image: ghcr.io/embrs/asp-ci-demo:latest
     restart: always
     expose:
       - '5000'
     networks:
       - appnet
-  frontend:
+  backend2:
+    image: ghcr.io/embrs/asp-ci-demo:latest
+    restart: always
+    expose:
+      - '5000'
+    networks:
+      - appnet
+  frontend1:
     image: ghcr.io/embrs/nuxt-ci-test:latest
     expose:
       - '3000'
-    depends_on:
-      - backend
     restart: always
     networks:
       - appnet
+
   nginx:
     image: nginx:alpine          # 使用輕量 Alpine 版本
     ports:
@@ -24,8 +30,9 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf  # 掛載自定義配置
       - ./nginx/ssl:/etc/nginx/ssl:/etc/nginx/ssl;          # 掛載 SSL 憑證
     depends_on:
-      - backend
-      - frontend
+      - backend1
+      - backend2
+      - frontend1
     networks:
       - appnet
 networks:
