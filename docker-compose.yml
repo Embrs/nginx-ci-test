@@ -1,11 +1,4 @@
 services:
-  # backend:
-  #   image: ghcr.io/embrs/php-ci-demo:latest
-  #   restart: always
-  #   expose:
-  #     - '8000'
-  #   networks:
-  #     - appnet
   backend:
     image: ghcr.io/embrs/asp-ci-demo:latest
     restart: always
