@@ -1,16 +1,34 @@
 services:
+  postgres:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: harryrelease
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: mydb
+    expose:
+      - '5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - appnet
+
   backend1:
-    image: ghcr.io/embrs/asp-ci-demo-release:latest
+    image: ghcr.io/embrs/asp-ci-demo-dev:latest
     restart: always
     expose:
       - '5000'
+    depends_on:
+      - postgres
     networks:
       - appnet
   backend2:
-    image: ghcr.io/embrs/asp-ci-demo-release:latest
+    image: ghcr.io/embrs/asp-ci-demo-dev:latest
     restart: always
     expose:
       - '5000'
+    depends_on:
+      - postgres
     networks:
       - appnet
   frontend1:
@@ -35,5 +53,7 @@ services:
       - frontend1
     networks:
       - appnet
+volumes:
+  postgres-data: {}   # 定義卷 postgres-data
 networks:
   appnet:
