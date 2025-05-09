@@ -1,13 +1,13 @@
 services:
   backend1:
-    image: ghcr.io/embrs/asp-ci-demo:latest
+    image: ghcr.io/embrs/asp-ci-demo-release:latest
     restart: always
     expose:
       - '5000'
     networks:
       - appnet
   backend2:
-    image: ghcr.io/embrs/asp-ci-demo:latest
+    image: ghcr.io/embrs/asp-ci-demo-release:latest
     restart: always
     expose:
       - '5000'
