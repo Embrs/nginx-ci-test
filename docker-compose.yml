@@ -1,22 +1,22 @@
 services:
-  # postgres:
-  #   image: postgres:16
-  #   restart: always
-  #   environment:
-  #     POSTGRES_USER: harryrelease
-  #     POSTGRES_PASSWORD: 12345
-  #     POSTGRES_DB: mydb
-  #   expose:
-  #     - '5432'
-  #   volumes:
-  #     - postgres-data:/var/lib/postgresql/data
-  #   healthcheck:
-  #     test: ['CMD-SHELL', 'pg_isready -U postgres']
-  #     interval: 5s
-  #     timeout: 5s
-  #     retries: 5
-  #   networks:
-  #     - appnet
+  postgres:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: harryrelease
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: mydb
+    expose:
+      - '5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    # healthcheck:
+    #   test: ['CMD-SHELL', 'pg_isready -U postgres']
+    #   interval: 5s
+    #   timeout: 5s
+    #   retries: 5
+    networks:
+      - appnet
 
   backend1:
     image: ghcr.io/embrs/asp-ci-demo-dev:latest
