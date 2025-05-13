@@ -8,8 +8,10 @@ services:
       POSTGRES_DB: mydb
     expose:
       - '5432'
+    ports:
+      - 15432:5432
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data
     # healthcheck:
     #   test: ['CMD-SHELL', 'pg_isready -U postgres']
     #   interval: 5s
@@ -62,7 +64,5 @@ services:
       - frontend1
     networks:
       - appnet
-volumes:
-  postgres-data: {}   # 定義卷 postgres-data
 networks:
   appnet:
