@@ -19,29 +19,43 @@ services:
     #   retries: 5
     networks:
       - appnet
+  redis:
+    image: redis:7
+    container_name: redis
+    expose:
+      - '6379'
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
 
   backend1:
     image: ghcr.io/embrs/asp-ci-demo-dev:latest
     restart: always
     expose:
       - '5000'
-    # depends_on:
-    #   - postgres
+    depends_on:
+      - postgres
+      - redis
     environment:
-      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=mydb;Username=harryrelease;Password=12345
+      - ConnectionStrings__Postgres=Host=postgres;Port=5432;Database=mydb;Username=harryrelease;Password=12345
+      - ConnectionStrings__Redis=redis:6379
     networks:
       - appnet
+
   backend2:
     image: ghcr.io/embrs/asp-ci-demo-dev:latest
     restart: always
     expose:
       - '5000'
-    # depends_on:
-    #   - postgres
+    depends_on:
+      - postgres
+      - redis
     environment:
-      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=mydb;Username=harryrelease;Password=12345
+      - ConnectionStrings__Postgres=Host=postgres;Port=5432;Database=mydb;Username=harryrelease;Password=12345
+      - ConnectionStrings__Redis=redis:6379
     networks:
       - appnet
+
   frontend1:
     image: ghcr.io/embrs/nuxt-ci-test:latest
     expose:
@@ -49,6 +63,7 @@ services:
     restart: always
     networks:
       - appnet
+
 
   nginx:
     image: nginx:alpine          # 使用輕量 Alpine 版本
@@ -64,5 +79,9 @@ services:
       - frontend1
     networks:
       - appnet
+    
+volumes:
+  redis-data:
+
 networks:
   appnet:
