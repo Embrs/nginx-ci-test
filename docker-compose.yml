@@ -39,6 +39,8 @@ services:
     environment:
       - ConnectionStrings__Postgres=Host=postgres;Port=5432;Database=mydb;Username=harryrelease;Password=12345
       - ConnectionStrings__Redis=redis:6379
+    volumes:
+      - ./pdfdata:/app/pdfdata
     networks:
       - appnet
 
@@ -53,6 +55,8 @@ services:
     environment:
       - ConnectionStrings__Postgres=Host=postgres;Port=5432;Database=mydb;Username=harryrelease;Password=12345
       - ConnectionStrings__Redis=redis:6379
+    volumes:
+      - ./pdfdata:/app/pdfdata 
     networks:
       - appnet
 
